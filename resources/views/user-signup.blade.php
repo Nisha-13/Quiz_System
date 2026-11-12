@@ -2,90 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'User Signup')</title>
+    <title>Sign Up &mdash; QuizSphere</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-    {{-- Tailwind + Vite --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
 
-<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+<body class="bg-slate-950 min-h-screen font-sans relative overflow-x-hidden">
+<x-user-navbar></x-user-navbar>
 
-    <!-- Navbar -->
-    <x-user-navbar></x-user-navbar>
+<div class="fixed inset-0 pointer-events-none">
+    <div class="absolute -top-32 left-1/4 w-[500px] h-[500px] bg-teal-600/25 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-600/20 rounded-full blur-[120px]"></div>
+</div>
 
-    <!-- Signup Section -->
-    <section class="flex-grow flex justify-center items-center px-4 py-12 mt-10">
-        <div class="bg-white shadow-xl rounded-2xl w-full max-w-md px-8 py-8">
-            
-            <!-- Header -->
-            <div class="text-center mb-6">
-                <i class="bi bi-person-plus-fill text-teal-600 text-5xl"></i>
-                <h2 class="text-2xl font-bold text-teal-700 mt-2">Create Account</h2>
-                <p class="text-gray-500 text-sm mt-1">Join the Quiz System today!</p>
-            </div>
+<main class="relative z-10 min-h-screen flex items-center justify-center px-4 py-28">
+  <div class="w-full max-w-md bg-white/[0.06] backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl">
 
-            <!-- Signup Form -->
-            <form action="/user-signup" method="POST" class="space-y-5">
-                @csrf
+      <div class="text-center mb-8">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-teal-600 to-cyan-500 grid place-items-center shadow-xl shadow-teal-600/40 mb-4">
+              <i class="bi bi-person-plus-fill text-white text-2xl"></i>
+          </div>
+          <h2 class="text-2xl font-extrabold text-white">Create your account</h2>
+          <p class="text-slate-400 text-sm mt-1">Free forever  &bull;  certificates included</p>
+      </div>
 
-                <!-- Username -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-1" for="name">Username</label>
-                    <input type="text" id="username" name="name"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition">
-                    @error('username')
-                    <div class="text-red-400">{{$message}}</div>
-                    @enderror
-                </div>
+      <form action="/user-signup" method="POST" class="space-y-4">
+          @csrf
 
-                <!-- Email -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-1" for="email">Email</label>
-                    <input type="email" id="email" name="email"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition">
-                        @error('email')
-                        <div class="text-red-400">{{$message}}</div>
-                        @enderror
-                </div>
+          <div>
+              <label class="block text-sm font-semibold text-slate-300 mb-1.5" for="name">Full Name</label>
+              <div class="relative">
+                  <i class="bi bi-person absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                  <input type="text" id="name" name="name" required minlength="3" placeholder="John Doe" value="{{ old('name') }}"
+                      class="w-full bg-white/5 border {{ $errors->has('name') ? 'border-rose-500/70' : 'border-white/10' }} rounded-xl pl-11 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition">
+              </div>
+              @error('name')<p class="mt-1.5 flex items-center gap-1 text-xs font-medium text-rose-400"><i class="bi bi-exclamation-circle-fill"></i> {{ $message }}</p>@enderror
+          </div>
 
-                <!-- Password -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-1" for="password">Password</label>
-                    <input type="password" id="password" name="password"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition">
-                        @error('password')
-                        <div class="text-red-400">{{$message}}</div>
-                        @enderror
-                </div>
+          <div>
+              <label class="block text-sm font-semibold text-slate-300 mb-1.5" for="email">Email</label>
+              <div class="relative">
+                  <i class="bi bi-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                  <input type="email" id="email" name="email" required placeholder="you@example.com" value="{{ old('email') }}"
+                      class="w-full bg-white/5 border {{ $errors->has('email') ? 'border-rose-500/70' : 'border-white/10' }} rounded-xl pl-11 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition">
+              </div>
+              @error('email')<p class="mt-1.5 flex items-center gap-1 text-xs font-medium text-rose-400"><i class="bi bi-exclamation-circle-fill"></i> {{ $message }}</p>@enderror
+          </div>
 
-                <!-- Confirm Password -->
-                <div>
-                    <label class="block text-gray-700 font-medium mb-1" for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="password_confirmation"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition">
-                </div>
+          <div>
+              <label class="block text-sm font-semibold text-slate-300 mb-1.5" for="password">Password</label>
+              <div class="relative">
+                  <i class="bi bi-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                  <input type="password" id="password" name="password" required minlength="3" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                      class="w-full bg-white/5 border {{ $errors->has('password') ? 'border-rose-500/70' : 'border-white/10' }} rounded-xl pl-11 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition">
+              </div>
+              @error('password')<p class="mt-1.5 flex items-center gap-1 text-xs font-medium text-rose-400"><i class="bi bi-exclamation-circle-fill"></i> {{ $message }}</p>@enderror
+          </div>
 
-                <!-- Signup Button -->
-                <button type="submit"
-                    class="w-full bg-teal-600 text-white py-2 rounded-lg font-semibold hover:bg-teal-700 transition transform hover:-translate-y-0.5">
-                    Sign Up
-                </button>
-            </form>
+          <div>
+              <label class="block text-sm font-semibold text-slate-300 mb-1.5" for="password_confirmation">Confirm Password</label>
+              <div class="relative">
+                  <i class="bi bi-lock-fill absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                  <input type="password" id="password_confirmation" name="password_confirmation" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                      class="w-full bg-white/5 border {{ $errors->has('password_confirmation') ? 'border-rose-500/70' : 'border-white/10' }} rounded-xl pl-11 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition">
+              </div>
+              @error('password_confirmation')<p class="mt-1.5 flex items-center gap-1 text-xs font-medium text-rose-400"><i class="bi bi-exclamation-circle-fill"></i> {{ $message }}</p>@enderror
+          </div>
 
-            <!-- Login Link -->
-            <p class="text-center text-gray-600 text-sm mt-5">
-                Already have an account? 
-                <a href="/user-login" class="text-teal-600 hover:text-teal-800 font-medium">Login</a>
-            </p>
-        </div>
-    </section>
+          <button type="submit"
+              class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold py-3 rounded-xl shadow-xl shadow-teal-600/30 hover:shadow-teal-500/50 hover:-translate-y-0.5 transition-all">
+              Sign Up
+          </button>
+      </form>
 
-    <!-- Footer -->
-    <x-user-footer></x-user-footer>
+      <p class="text-center text-slate-400 text-sm mt-7">
+          Already have an account?
+          <a href="/login" class="text-teal-400 hover:text-teal-300 font-semibold">Login</a>
+      </p>
+  </div>
+</main>
 </body>
 </html>
+

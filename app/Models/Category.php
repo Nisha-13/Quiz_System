@@ -2,12 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    //
-    function quizzes(){
+    use HasFactory;
+
+    protected $fillable = ['name', 'creator'];
+
+    public function quizzes()
+    {
         return $this->hasMany(Quiz::class);
+    }
+
+    public function mcqs()
+    {
+        return $this->hasManyThrough(Mcq::class, Quiz::class);
     }
 }

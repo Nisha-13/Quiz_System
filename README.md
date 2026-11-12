@@ -1,61 +1,237 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# QuizSphere — Quiz System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel 12 quiz platform where admins build quizzes, users take them, and passing
+users earn a downloadable PDF certificate.
 
-## About Laravel
+Built with Laravel 12, Tailwind CSS 4, Vite, MySQL and Pest.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Documentation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Full technical documentation lives in [`docs/`](docs/README.md):
 
-## Learning Laravel
+| Document | Contents |
+|---|---|
+| [Overview](docs/01-overview.md) | What the application does and every feature |
+| [Architecture](docs/02-architecture.md) | Layers, request lifecycle, directory map, design decisions |
+| [Tech stack & languages](docs/03-tech-stack.md) | PHP, Blade, JavaScript, CSS, SQL and every dependency with versions |
+| [Modules](docs/04-modules.md) | The seven functional modules and their responsibilities |
+| [Data model](docs/05-data-model.md) | Every table, column, relationship and status flag |
+| [Routing reference](docs/06-routing.md) | All 46 routes with their middleware and controller action |
+| [Frontend](docs/07-frontend.md) | Blade templates, components, Tailwind theme, build pipeline |
+| [Certificates](docs/08-certificates.md) | The certificate and PDF generation pipeline |
+| [Authentication](docs/09-authentication.md) | Session model, e-mail verification, password reset |
+| [Configuration & operations](docs/10-configuration.md) | Environment variables, commands, deployment |
+| [Testing](docs/11-testing.md) | The 72-test suite and how to extend it |
+| [Maintenance notes](docs/12-maintenance-notes.md) | Dead code, quirks and where to add new features |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Public
+- Landing page with featured categories and quizzes
+- Category browsing with pagination
+- Quiz search across categories and quiz names
+- Responsive dark UI with a mobile nav drawer
 
-## Laravel Sponsors
+### Users
+- Sign up with email verification — **an account cannot sign in until the email address is confirmed**
+- After signing up you land on a "check your inbox" screen; the verification link
+  confirms the account and sends you to the sign-in form
+- If the email never arrives, request a new verification link from that screen
+  (or from the hint on the sign-in page)
+- Sign in / sign out, forgot-password and reset-password flows
+- Inline validation: each error renders under the field that caused it, and the
+  values you already typed stay filled in (passwords are never re-filled)
+- Attempt a quiz question by question with a live progress bar
+- Resume an unfinished attempt exactly where it was left off
+- Answer review after finishing, with the correct answer per question
+- Attempt history with score, percentage and pass/fail state
+- Certificate page and downloadable PDF certificate (earned at **70 % or higher**)
+- Attempts are never duplicated by reloading or re-entering a quiz
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Admins
+- Dashboard with platform statistics — every card links to its own management page
+- Manage **users** (attempts per member, verification status)
+- Manage **categories** (create, browse, delete)
+- Manage **quizzes** (per category, question and attempt counts, edit, delete)
+- Manage **questions** (every question of every quiz, with its correct answer, delete)
+- Manage **quiz attempts** (who attempted what, score, pass/fail state)
+- Create a quiz, then add multiple-choice questions to it
+- Review and manage the questions of any quiz
+- Delete quizzes (questions and attempts cascade) or single questions
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Requirements
 
-## Contributing
+| | |
+|---|---|
+| PHP | 8.4+ (with `pdo_mysql`, `mbstring`, `openssl`, `dom`, `gd`) |
+| Composer | 2.x |
+| Node.js | 20+ |
+| Database | MySQL 8 / MariaDB 10.4+ |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Installation
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 1. Install the dependencies
 
-## Security Vulnerabilities
+```bash
+composer install
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Configure the environment
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Set your database credentials in `.env`:
+
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=quiz_system
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 3. Create the database and load the demo data
+
+```bash
+php artisan migrate --seed
+```
+
+That creates every table and loads the demo admin, a demo user, four categories,
+five quizzes and twenty questions.
+
+> **Prefer phpMyAdmin / shared hosting?** Import `database/quiz_system.sql`
+> instead. It creates the same schema and demo data. Afterwards run
+> `php artisan migrate` once so Laravel records the schema baseline.
+
+### 4. Build the front-end assets
+
+```bash
+npm run build       # production
+npm run dev         # hot reloading during development
+```
+
+### 5. Serve the application
+
+```bash
+php artisan serve
+```
+
+The app is now available at <http://127.0.0.1:8000>.
+
+---
+
+## Demo credentials
+
+| Role | Login | Password |
+|---|---|---|
+| Admin | `admin` | `admin123` |
+| User | `demoUser@example.com` | `password123` |
+
+---
+
+## Testing
+
+The test suite runs against an in-memory SQLite database, so it never touches
+your development database.
+
+```bash
+php artisan test
+```
+
+| File | Covers |
+|---|---|
+| `tests/Feature/PublicPagesTest.php` | Public pages, search, guest redirects |
+| `tests/Feature/AuthenticationTest.php` | Signup, login, logout, password reset, inline validation |
+| `tests/Feature/QuizAttemptTest.php` | Attempt lifecycle, resume, answer review, certificates |
+| `tests/Feature/AdminPanelTest.php` | Categories, quizzes, questions, deletions, management pages |
+
+---
+
+## Certificates
+
+The certificate page (`/certificate/{id}`) and the PDF download
+(`/download-certificate/{id}`) are rendered from **one** template, so the
+downloaded file looks exactly like the certificate shown on screen.
+
+| File | Purpose |
+|---|---|
+| `resources/views/partials/certificate-card.blade.php` | The card itself, shared by the page and the PDF |
+| `public/css/certificate.css` | Card styles, shared by the page and the PDF |
+| `public/css/certificate-fonts.css` | `@font-face` rules for the certificate fonts |
+| `public/fonts/` | Great Vibes and Playfair Display (TrueType), embedded in the PDF |
+| `public/images/cert-*.svg` | Logo and icons used on the card |
+| `public/images/cert-edge.png` | Gradient strip used as the left/right border of the card |
+| `resources/views/components/gradient-bar.blade.php` | Draws the gradient strips (the PDF renderer has no CSS gradients) |
+
+The PDF renderer (Dompdf) supports neither flexbox nor CSS gradients nor web
+fonts, so the card is built with tables, the gradients are drawn as rows of
+coloured cells and the fonts are read from `public/fonts` instead of a CDN.
+The vertical border of the card is a small PNG that is stretched over the
+full height of the card; regenerate it with `php artisan certificate:edge-image`
+after changing the brand colours. When the card changes, change these shared
+files — never only one of the two renderings.
+
+The two stylesheets live in `public/css` and are loaded directly by the
+certificate page, so the certificate never depends on a frontend build
+(`npm run build`). The PDF inlines those very same files.
+
+---
+
+## Project layout
+
+```
+app/
+  Http/Controllers/AdminController.php   Admin panel (categories, quizzes, questions)
+  Http/Controllers/UserController.php    Public site, auth, quiz attempts, certificates
+  Http/Middleware/                       CheckUserAuth / CheckAdminAuth guards
+  Models/                                Admin, User, Category, Quiz, Mcq, Record, MCQ_Record
+database/
+  migrations/                            Schema for every table
+  seeders/QuizSphereSeeder.php           Demo data
+  factories/                             Model factories used by the tests
+  quiz_system.sql                        Standalone phpMyAdmin installer
+resources/views/                         Blade templates
+routes/web.php                           All routes
+tests/Feature/                           Pest feature tests
+```
+
+---
+
+## How the data model fits together
+
+```
+Category ──< Quiz ──< Mcq
+                    │
+                    └──< Record (one quiz attempt) ──< MCQ_Record (one answer)
+```
+
+- A **Record** is a single attempt at a quiz. `status = 1` means in progress,
+  `status = 2` means finished.
+- An **MCQ_Record** stores the answer the user picked for one question and
+  whether it was correct.
+- A **user** is only allowed to sign in once `active = 2` (email verified);
+  `active = 1` means the address has not been confirmed yet.
+- A **certificate** is only issued once an attempt is finished *and* the score
+  is at least 70 %.
+
+See [docs/05-data-model.md](docs/05-data-model.md) for the full schema, every
+column and the ER diagram.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT

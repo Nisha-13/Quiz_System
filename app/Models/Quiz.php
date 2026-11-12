@@ -2,18 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
-    //
-    function category(){
+    use HasFactory;
+
+    protected $fillable = ['name', 'category_id'];
+
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
-    function Mcq(){
+
+    public function mcqs()
+    {
         return $this->hasMany(Mcq::class);
     }
-    function Record(){
+
+    public function records()
+    {
         return $this->hasMany(Record::class);
     }
 }

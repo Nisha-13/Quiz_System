@@ -1,133 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Categories</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<x-admin-layout :name="$name" :stats="$stats" title="Categories" heading="Categories" subheading="Organize your quizzes into topics">
 
-    {{-- ✅ Tailwind + Vite --}}
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
-</head>
+<div class="grid gap-6 lg:grid-cols-3">
 
-<body class="bg-gray-100 font-sans">
-
-    <!-- ✅ Navbar -->
-    <x-navbar name="{{ $name }}"></x-navbar>
-
-    <!-- ✅ Add Category Form -->
-    <div class="flex justify-center mt-24">
-        <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
-
-            <!-- ✅ Success Message -->
-            @if(session('category_name'))
-                <div class="mb-4 bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg flex items-center gap-2 shadow-sm">
-                    <i class="bi bi-check-circle-fill text-green-600 text-lg"></i>
-                    <span class="font-medium">{{ session('category_name') }}</span>
-                </div>
-            @endif
-
-            <h2 class="text-2xl font-semibold text-blue-600 mb-4 text-center">Add New Category</h2>
-
-            <form action="/add-category" method="POST" class="space-y-4">
-                @csrf
-                <div>
-                    <label class="block text-gray-700 font-medium mb-1">Category Name</label>
-                    <input type="text" name="category_name" placeholder="Enter category name"
-                           class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none">
-                </div>
-                @error('category_name')
-                <div class="text-red-600 text-sm font-medium mt-1 flex items-center gap-1">
-                    <i class="bi bi-exclamation-circle-fill"></i>
-                    {{ $message }}
-                </div>
-                @enderror
-
-                <button type="submit"
-                        class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold py-2 rounded-lg hover:opacity-90 transition">
-                    Add Category
-                </button>
-            </form>
+    <!-- &hellip; Add Category Form -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 h-fit lg:sticky lg:top-28">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-teal-600 to-emerald-600 grid place-items-center shadow-lg shadow-teal-500/25">
+                <i class="bi bi-plus-lg text-white text-lg"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold text-slate-900 leading-tight">New Category</h2>
+                <p class="text-xs text-slate-500">Create a quiz topic</p>
+            </div>
         </div>
+
+        @if(session('category_name'))
+        <div class="mb-4 flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-2.5 rounded-lg text-sm">
+            <i class="bi bi-check-circle-fill"></i>
+            <span class="font-medium">{{ session('category_name') }}</span>
+        </div>
+        @endif
+        @if(session('category_delete'))
+        <div class="mb-4 flex items-center gap-2 bg-rose-50 border border-rose-200 text-rose-700 px-3 py-2.5 rounded-lg text-sm">
+            <i class="bi bi-trash-fill"></i>
+            <span class="font-medium">{{ session('category_delete') }}</span>
+        </div>
+        @endif
+
+        <form action="/add-category" method="POST" class="space-y-4">
+            @csrf
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Category Name</label>
+                <input type="text" name="category_name" placeholder="e.g. Web Development"
+                       class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition">
+                @error('category_name')
+                <p class="text-rose-600 text-xs font-medium mt-1.5 flex items-center gap-1"><i class="bi bi-exclamation-circle-fill"></i>{{ $message }}</p>
+                @enderror
+            </div>
+            <button type="submit"
+                    class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold py-2.5 rounded-xl shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:-translate-y-px transition-all">
+                <i class="bi bi-check-lg mr-1"></i> Add Category
+            </button>
+        </form>
     </div>
 
-    <!-- ✅ Category List -->
-    <div class="flex flex-col items-center mt-16 px-4 mb-10">
-        <h1 class="text-3xl font-bold text-blue-700 mb-6 tracking-wide">
-            Category List
-        </h1>
-        @if(session('category_delete'))
-            <div class="mb-4 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2 shadow-sm">
-                <i class="bi bi-trash-fill text-red-600 text-lg"></i>
-                <span class="font-medium">{{ session('category_delete') }}</span>
-            </div>
-        @endif
-        <div class="bg-white rounded-2xl shadow-md overflow-hidden w-full max-w-4xl">
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm text-left text-gray-700 border-collapse">
-            <thead class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white">
-                <tr>
-                    <th class="px-6 py-3">ID</th>
-                    <th class="px-6 py-3">Name</th>
-                    <th class="px-6 py-3">Creator</th>
-                    <th class="px-6 py-3 text-center">Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach($categories as $category)
-                    <tr class="{{ $loop->odd ? 'bg-blue-50' : 'bg-white' }} border-b">
-                        <td class="px-6 py-3 font-medium text-gray-900">{{ $category->id }}</td>
-                        <td class="px-6 py-3">{{ $category->name }}</td>
-                        <td class="px-6 py-3">{{ $category->creator }}</td>
-                        <td class="px-6 py-3 text-center space-x-4">
-                            <a href="/quiz-list/{{$category->id}}/{{$category->name}}" title="View">
-                                <i class="bi bi-eye-fill text-lg text-blue-600 hover:text-blue-800"></i>
-                            </a>
-                            <a href="/category/delete/{{$category->id}}" title="Delete">
-                                <i class="bi bi-trash-fill text-lg text-red-600 hover:text-red-800"></i>
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-
-                @if($categories->isEmpty())
+    <!-- &hellip; Category List -->
+    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+            <h2 class="text-lg font-bold text-slate-900">All Categories</h2>
+            <span class="text-xs font-bold px-3 py-1.5 rounded-full bg-teal-50 text-teal-600">{{ $categories->count() }} total</span>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
                     <tr>
-                        <td colspan="4" class="text-center py-6 text-gray-500">No categories found</td>
+                        <th class="px-6 py-4">#</th>
+                        <th class="px-6 py-4">Name</th>
+                        <th class="px-6 py-4">Creator</th>
+                        <th class="px-6 py-4 text-center">Quizzes</th>
+                        <th class="px-6 py-4 text-center">Actions</th>
                     </tr>
-                @endif
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach($categories as $key => $category)
+                        <tr class="hover:bg-teal-50/40 transition-colors">
+                            <td class="px-6 py-4 font-semibold text-slate-400">{{ $category->id }}</td>
+                            <td class="px-6 py-4 font-semibold text-slate-800">{{ $category->name }}</td>
+                            <td class="px-6 py-4 text-slate-600">{{ $category->creator }}</td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="text-xs font-bold px-3 py-1 rounded-full bg-sky-50 text-sky-600">{{ $category->quizzes_count }}</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <a href="/quiz-list/{{ $category->id }}/{{ $category->name }}" title="View Quizzes"
+                                   class="inline-flex w-9 h-9 rounded-lg bg-teal-50 text-teal-600 hover:bg-teal-600 hover:text-white transition items-center justify-center mr-1">
+                                   <i class="bi bi-eye-fill"></i>
+                                </a>
+                                <a href="/category/delete/{{ $category->id }}" title="Delete"
+                                    onclick="return confirm('Delete this category? All its quizzes and questions will be removed too.')"
+                                   class="inline-flex w-9 h-9 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white transition items-center justify-center">
+                                   <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @if($categories->isEmpty())
+                        <tr><td colspan="5" class="text-center py-10 text-slate-400"><i class="bi bi-inbox text-3xl block mb-2"></i>No categories yet &mdash; create your first one!</td></tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-    </div>
+</x-admin-layout>
 
-
-
-    <!-- ✅ Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- ✅ Toggle Animation Script -->
-    <script>
-        const toggleBtn = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const toggleIcon = toggleBtn?.querySelector('i');
-        let isOpen = false;
-
-        toggleBtn?.addEventListener('click', () => {
-            isOpen = !isOpen;
-            if (isOpen) {
-                mobileMenu.classList.remove('max-h-0');
-                mobileMenu.classList.add('max-h-96', 'py-4');
-                toggleIcon.classList.replace('bi-list', 'bi-x');
-            } else {
-                mobileMenu.classList.add('max-h-0');
-                mobileMenu.classList.remove('max-h-96', 'py-4');
-                toggleIcon.classList.replace('bi-x', 'bi-list');
-            }
-        });
-    </script>
-
-</body>
-</html>

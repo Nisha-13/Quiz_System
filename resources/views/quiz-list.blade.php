@@ -1,59 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>@yield('title', 'Admin Dashboard')</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<x-admin-layout :name="$name" :stats="$stats" title="Quiz List" heading="Quizzes in {{ $category }}" subheading="Manage every quiz in this category">
 
-
-    {{-- Tailwind + Vite --}}
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
-</head>
-
-<body class="bg-gray-100 font-sans">
-<x-user-navbar></x-user-navbar>
-
-    <!-- ✅ Add Category Form -->
-    <div class="flex justify-center mt-24">
-            <h2 class="text-2xl font-semibold text-blue-600 mb-4 text-center">Category Nanme: {{$category}}
-                <a href="/add-quiz" class="text-yellow-400 text-sm">Back</a>
-            </h2>
-    </div>
-
-    <!-- ✅ Category List -->
-    <div class="flex flex-col items-center mt-12 px-4 mb-10">
-        <div class="bg-white rounded-2xl shadow-md overflow-hidden w-full max-w-4xl">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-700 border-collapse">
-                    <thead class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white">
-                        <tr>
-                            <th class="px-6 py-3">Quiz ID</th>
-                            <th class="px-6 py-3">Question</th>
-                            <th class="px-6 py-3 text-center">Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach($quizData as $item)
-                            <tr class="{{ $loop->odd ? 'bg-blue-50' : 'bg-white' }} border-b">
-                                <td class="px-6 py-3 font-medium text-gray-900">{{ $item->id }}</td>
-                                <td class="px-6 py-3">{{ $item->name }}</td>
-                                <td class="px-6 py-3 text-center">
-                                    <a href="/show-quiz/{{$item->id}}/{{$item->name}}" title="View">
-                                        <i class="bi bi-eye-fill text-lg text-blue-600 hover:text-blue-800"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100 flex-wrap gap-3">
+        <div class="flex items-center gap-3">
+            <a href="/admin-categories" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+            <div>
+                <h2 class="text-lg font-bold text-slate-900">{{ $category }}</h2>
+                <p class="text-sm text-slate-500">{{ $quizData->count() }} quizzes</p>
             </div>
         </div>
+        <a href="/add-quiz" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white text-sm font-semibold shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 transition-all">
+            <i class="bi bi-plus-lg"></i> New Quiz
+        </a>
     </div>
 
+    <div class="p-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        @foreach($quizData as $item)
+            <div class="group relative rounded-2xl border border-slate-200 hover:border-teal-300 bg-white p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                <div class="flex items-start justify-between">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-500 grid place-items-center shadow-md shadow-teal-500/25">
+                        <i class="bi bi-journal-richtext text-white text-lg"></i>
+                    </div>
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">#{{ $item->id }}</span>
+                </div>
+                <h3 class="mt-4 font-bold text-slate-900 group-hover:text-teal-600 transition truncate" title="{{ $item->name }}">{{ $item->name }}</h3>
+                <p class="text-sm text-slate-500 mt-1"><i class="bi bi-question-circle mr-1"></i>{{ $item->mcqs_count }} questions</p>
+                <div class="mt-4 flex items-center gap-2">
+                    <a href="/show-quiz/{{ $item->id }}/{{ $item->name }}"
+                       class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 transition">
+                        <i class="bi bi-eye-fill"></i> View
+                    </a>
+                    <a href="/quiz/delete/{{ $item->id }}"
+                       onclick="return confirm('Delete this quiz and all of its questions?')"
+                       class="inline-flex w-10 h-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white transition">
+                        <i class="bi bi-trash-fill"></i>
+                    </a>
+                </div>
+            </div>
+        @endforeach
 
+        @if($quizData->isEmpty())
+            <div class="col-span-full text-center py-14 text-slate-400">
+                <i class="bi bi-inbox text-4xl block mb-3"></i>
+                <p class="font-medium">No quizzes in this category yet.</p>
+                <a href="/add-quiz" class="text-teal-600 font-semibold hover:underline">Create one now &raquo;</a>
+            </div>
+        @endif
+    </div>
+</div>
 
-<x-user-footer></x-user-footer>
-</body>
+</x-admin-layout>
+

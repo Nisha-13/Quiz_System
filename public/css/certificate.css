@@ -1,0 +1,257 @@
+/*
+|--------------------------------------------------------------------------
+| Certificate card
+|--------------------------------------------------------------------------
+|
+| Styles for the certificate card. The very same file is used by the on
+| screen certificate page (through Vite) and by the PDF export (inlined
+| into the PDF template), so both render exactly the same.
+|
+| Only CSS that the PDF renderer understands is used here: no flexbox,
+| no grid, no CSS gradients (gradients are drawn as coloured cells by
+| the gradient-bar component) and no box shadows.
+|
+*/
+
+.cert-card {
+    box-sizing: border-box;
+    width: 768px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Frame ---------------------------------------------------------------- */
+
+.cert-frame {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cert-edge {
+    width: 8px;
+    padding: 0;
+    vertical-align: top;
+    background-color: #0d9488;
+    background-image: url('/images/cert-edge.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.cert-core {
+    width: 750px;
+    padding: 0;
+    vertical-align: top;
+}
+
+
+/* Header band ---------------------------------------------------------- */
+
+.cert-header {
+    background-color: #0f172a;
+    padding: 24px 24px 22px 24px;
+    text-align: center;
+}
+
+.cert-brand {
+    display: table;
+    margin: 0 auto;
+}
+
+.cert-logo {
+    display: table-cell;
+    width: 48px;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.cert-logo-mark {
+    display: block;
+    width: 36px;
+    height: 36px;
+}
+
+.cert-brand-text {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.cert-brand-name {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+}
+
+.cert-brand-name span {
+    color: #5eead4;
+}
+
+.cert-brand-sub {
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+}
+
+/* Body ----------------------------------------------------------------- */
+
+.cert-body {
+    padding: 40px 56px 34px 56px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.cert-seal {
+    box-sizing: border-box;
+    width: 64px;
+    height: 64px;
+    padding-top: 16px;
+    margin: 0 auto 20px auto;
+    border-radius: 16px;
+    background-color: #0d9488;
+}
+
+.cert-seal-icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto;
+}
+
+.cert-kicker {
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 4.2px;
+}
+
+.cert-name {
+    margin-top: 12px;
+    padding-bottom: 20px;
+    color: #0f172a;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.cert-name-long {
+    font-size: 34px;
+    line-height: 1.2;
+}
+
+.cert-name-rule {
+    margin-top: 14px;
+}
+
+.cert-completes {
+    margin-top: 26px;
+    color: #475569;
+    font-size: 16px;
+}
+
+.cert-quiz {
+    margin-top: 6px;
+    color: #0f766e;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    font-size: 24px;
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* Score and date chips ------------------------------------------------- */
+
+.cert-chips {
+    margin-top: 28px;
+}
+
+.cert-chip {
+    display: inline-block;
+    margin: 4px 5px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.cert-chip-score {
+    background-color: #f0fdfa;
+    border: 1px solid #99f6e4;
+    color: #0f766e;
+}
+
+.cert-chip-date {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+.cert-chip-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    vertical-align: -2px;
+}
+
+.cert-quote {
+    margin-top: 28px;
+    color: #64748b;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Signatures ----------------------------------------------------------- */
+
+.cert-signatures {
+    width: 100%;
+    margin-top: 40px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.cert-signatures td {
+    width: 33%;
+    padding: 0 4px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.cert-script {
+    color: #115e59;
+    font-family: 'Great Vibes', 'Segoe Script', cursive;
+    font-size: 24px;
+    line-height: 30px;
+    white-space: nowrap;
+}
+
+.cert-id {
+    color: #64748b;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding-top: 8px;
+}
+
+.cert-signature-line {
+    width: 150px;
+    height: 1px;
+    margin: 10px auto 8px auto;
+    background-color: #cbd5e1;
+}
+
+.cert-signature-label {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}

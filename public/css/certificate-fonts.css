@@ -1,0 +1,60 @@
+/*
+|--------------------------------------------------------------------------
+| Certificate fonts
+|--------------------------------------------------------------------------
+|
+| The certificate page and the exported PDF share the same font files, so
+| the typography of the PDF is identical to the typography on screen.
+|
+| The PDF export rewrites the "/fonts/..." paths to local file paths, which
+| makes the renderer embed these very same files.
+|
+*/
+
+@font-face {
+    font-family: 'Great Vibes';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/great-vibes-400.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/playfair-display-400.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/playfair-display-600.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/playfair-display-700.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url('/fonts/playfair-display-800.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/playfair-display-400-italic.ttf') format('truetype');
+}

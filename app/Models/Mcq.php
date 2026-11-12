@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Mcq extends Model
 {
-    //
-    function Quiz(){
+    use HasFactory;
+
+    public function quiz()
+    {
         return $this->belongsTo(Quiz::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

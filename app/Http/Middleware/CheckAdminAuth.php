@@ -15,9 +15,10 @@ class CheckAdminAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Session('admin')){
-            return redirect('admin-login');
+        if (! Session('admin')) {
+            return redirect('login')->with('message-error', 'Please login with an admin account to access this area.');
         }
+
         return $next($request);
     }
 }

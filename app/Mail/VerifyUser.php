@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -12,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class VerifyUser extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $link;
 
     /**
@@ -33,9 +33,10 @@ class VerifyUser extends Mailable
         );
     }
 
-    public function build(){
+    public function build()
+    {
         return $this->view('mail.verify-user')->with([
-            'link' => $this->link
+            'link' => $this->link,
         ]);
     }
 
